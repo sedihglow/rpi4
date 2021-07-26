@@ -1,4 +1,4 @@
-#include "blink.h"
+#include "led.h"
 
 void setup_wiringpi_gpio_interface()
 {
