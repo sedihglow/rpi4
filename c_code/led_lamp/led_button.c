@@ -20,22 +20,22 @@ void init_led_struct(led_s *led, int pin, bool state)
     led->state = state;
 }
 
-void setup_led_pin(led_s *led, bool init)
+void setup_led_pin(led_s *led)
 {
     pinMode(led->pin, OUTPUT);
     printf("Using wringPi LED pin %d\n", led->pin);
-    set_led(led, init);
+    set_led(led, led->state);
 }
 
 void set_led(led_s *led, bool mode)
 {
+    led->state = mode;
     digitalWrite(led->pin, mode);
 }
 
 void toggle_led(led_s *led)
 {
-    led->state = !led->state;
-    set_led(led, led->state);
+    set_led(led, !led->state);
 }
 
 void blink_led(led_s *led, int ms)
@@ -54,12 +54,13 @@ void init_button_struct(button_s *button, int pin, int pud, bool state,
     button->pin          = pin;
     button->pud          = pud;
     button->state        = state;
-    button->last_state   = !state;
+    button->last_state   = state;
     button->capture_time = capture_time;
     button->last_change  = 0;
+    button->state_changed = false;
 }
 
-void init_button_pin(button_s *button)
+void setup_button_pin(button_s *button)
 {
     pinMode(button->pin, INPUT); 
     set_gpio_pull(button->pin, button->pud);
@@ -79,8 +80,10 @@ int read_button(button_s *button)
         button->last_change = millis();
 
     if ((millis() - button->last_change) > button->capture_time) {
+        button->state_changed = false;
         if (in != button->state) {
             button->state = in; 
+            button->state_changed = true;
         }
     }
     

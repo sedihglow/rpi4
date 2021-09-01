@@ -16,6 +16,7 @@ typedef struct button {
     bool last_state;
     long capture_time; // threshold of time button needs to be pressed in ms
     long last_change; // time button last changed
+    bool state_changed;
 } button_s;
 
 /* wiringPi GPIO funcionalitiy */
@@ -25,7 +26,7 @@ void set_gpio_pull(int pnum, int pud);
 /* LED functions */
 void init_led_struct(led_s *led, int pin, bool state);
 
-void setup_led_pin(led_s *led, bool init);
+void setup_led_pin(led_s *led);
 void set_led(led_s *led, bool mode);
 void toggle_led(led_s *led);
 void blink_led(led_s *led, int ms);
@@ -33,5 +34,5 @@ void blink_led(led_s *led, int ms);
 /* Button Functions */
 void init_button_struct(button_s *button, int pin, int pud, bool state, 
                         long capture_time);
-void init_button_pin(button_s *button);
+void setup_button_pin(button_s *button);
 int read_button(button_s *button);
