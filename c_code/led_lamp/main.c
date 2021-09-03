@@ -11,7 +11,6 @@ int main(void)
 {
     led_s led;
     button_s button;
-    int prev_state = HIGH;
     int count = 0;
 
     /* init wiringPi functionality */
