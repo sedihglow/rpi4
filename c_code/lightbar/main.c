@@ -7,11 +7,12 @@
 int main()
 {
     int i;
+    int k;
     led_s led[LED_COUNT];
 
     setup_wiringpi_gpio_interface();
     
-    for (i=0; i < LED_COUNT; ++i)
+    for (i=0, k=1; i < LED_COUNT; ++i, ++k)
         init_led_struct(&led[i], i, HIGH);
 
     for (i=0; i < LED_COUNT; ++i)
