@@ -11,6 +11,7 @@ class led:
     def setup(self):
         gpio.setmode(gpio.BOARD) # physical GPIO numbering
         gpio.setup(self.pin, gpio.OUT)
+        gpio.output(self.pin, self.state)
 
     def set_state(self, state):
         self.state = state

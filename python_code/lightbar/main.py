@@ -1,6 +1,8 @@
 from button_led import led
 import RPi.GPIO as gpio
 
+DELAY_SEC = 0.1
+
 if __name__ == "__main__":
     led_pins = [11, 12, 13, 15, 16, 18, 22, 7, 3, 5]
     light = []
@@ -12,7 +14,10 @@ if __name__ == "__main__":
     try:
         while True:
             for i in light:
-                i.blink_led(.1)
+                i.blink_led(DELAY_SEC)
+
+            for i in light[::-1]:
+                i.blink_led(DELAY_SEC)
             pass
     except KeyboardInterrupt:
         light[0].clean_gpio()
