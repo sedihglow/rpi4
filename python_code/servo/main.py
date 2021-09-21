@@ -17,6 +17,7 @@ if __name__ == "__main__":
 
     try:
         while (True):
-            servo.sweep_up(0,180)
+            servo.sweep(0,180)
     except KeyboardInterrupt:
-       servo.cleanup() 
+       servo.cleanup_pwm() 
+       servo.cleanup_gpio_interface()

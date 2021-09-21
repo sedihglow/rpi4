@@ -5,7 +5,7 @@ class soft_pwm_servo:
     PWM_INIT_DUTY_CYCLE = 0
     SERVO_ANGLE_MIN = 0
     SERVO_ANGLE_MAX = 180
-    THOUSANDTH_SEC = 0.001
+    HUNDRETH_SEC = 0.01
     HALF_SEC = 0.5
 
     def __init__(self, pin, angle, freq, duty_min, duty_max):
@@ -27,7 +27,7 @@ class soft_pwm_servo:
         #set default angle
         self.angle = self.check_angle(self.angle)
         self.set_angle(self.angle)
-        time.sleep(self.THOUSANDTH_SEC)
+        time.sleep(self.HALF_SEC)
 
     def map(self, value, inlow, inhigh, tolow, tohigh):
         return (tohigh-tolow)*(value-inlow) / (inhigh-inlow) + tolow
@@ -71,11 +71,11 @@ class soft_pwm_servo:
             return
         
         self.set_angle(start) # init the servo
-        time.sleep(self.THOUSANDTH_SEC)
+        time.sleep(self.HALF_SEC)
 
         for ang in range(start, finish-1, -1):
             self.set_angle(ang)
-            time.sleep(self.THOUSANDTH_SEC)
+            time.sleep(self.HUNDRETH_SEC)
 
     def sweep_up(self, start, finish):
         start = self.check_angle(start)
@@ -86,12 +86,14 @@ class soft_pwm_servo:
             return
 
         self.set_angle(start) # init the servo
-        time.sleep(2)
+        time.sleep(self.HALF_SEC)
 
         for ang in range(start, finish+1, 1):
             self.set_angle(ang)
-            time.sleep(self.THOUSANDTH_SEC)
+            time.sleep(self.HUNDRETH_SEC)
 
-    def cleanup(self):
+    def cleanup_pwm(self):
         self.servo.stop()
+
+    def cleanup_gpio_interface(self):
         gpio.cleanup() # not sure if i want to call this if having multiple servos
